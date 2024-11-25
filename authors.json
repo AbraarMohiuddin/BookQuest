@@ -1,0 +1,34 @@
+{
+  "classicalAuthors": [
+    { "name": "Donald Knuth", "olid": "OL229501A", "nationality": "American", "genres": ["Computer Science"], "century": "20th" },
+    { "name": "Ernest Bramah", "olid": "OL951438A", "nationality": "British", "genres": ["Fiction", "Mystery"], "century": "20th" },
+    { "name": "F. Scott Fitzgerald", "olid": "OL27349A", "nationality": "American", "genres": ["Fiction"], "century": "20th" },
+    { "name": "J.K. Rowling", "olid": "OL23919A", "nationality": "British", "genres": ["Fantasy"], "century": "21st" },
+    { "name": "Ernest Hemingway", "olid": "OL13640A", "nationality": "American", "genres": ["Fiction"], "century": "20th" },
+    { "name": "Arthur C. Doyle", "olid": "OL161167A", "nationality": "British", "genres": ["Mystery"], "century": "19th" }
+  ],
+  "trendingAuthors": [
+    { "name": "Stephen King", "olid": "OL2162284A", "nationality": "American", "genres": ["Horror", "Fiction"], "century": "20th" },
+    { "name": "J.K. Rowling", "olid": "OL23919A", "nationality": "British", "genres": ["Fantasy"], "century": "21st" },
+    { "name": "Haruki Murakami", "olid": "OL382524A", "nationality": "Japanese", "genres": ["Fiction"], "century": "21st" },
+    { "name": "Neil Gaiman", "olid": "OL53305A", "nationality": "British", "genres": ["Fantasy"], "century": "21st" },
+    { "name": "Margaret Atwood", "olid": "OL52922A", "nationality": "Canadian", "genres": ["Fiction", "Dystopian"], "century": "21st" },
+    { "name": "George R.R. Martin", "olid": "OL26320A", "nationality": "American", "genres": ["Fantasy"], "century": "21st" }
+  ],
+  "bestSciFiAuthors": [
+    { "name": "Isaac Asimov", "olid": "OL26320A", "nationality": "American", "genres": ["Science Fiction"], "century": "20th" },
+    { "name": "Arthur C. Clarke", "olid": "OL2623461A", "nationality": "British", "genres": ["Science Fiction"], "century": "20th" },
+    { "name": "Philip K. Dick", "olid": "OL274606A", "nationality": "American", "genres": ["Science Fiction"], "century": "20th" },
+    { "name": "Frank Herbert", "olid": "OL15963A", "nationality": "American", "genres": ["Science Fiction"], "century": "20th" },
+    { "name": "H.G. Wells", "olid": "OL19877A", "nationality": "British", "genres": ["Science Fiction"], "century": "19th" },
+    { "name": "Ray Bradbury", "olid": "OL25679A", "nationality": "American", "genres": ["Science Fiction"], "century": "20th" }
+  ],
+  "allTimeTopAuthors": [
+    { "name": "Leo Tolstoy", "olid": "OL26330A", "nationality": "Russian", "genres": ["Fiction"], "century": "19th" },
+    { "name": "Charles Dickens", "olid": "OL24678A", "nationality": "British", "genres": ["Fiction"], "century": "19th" },
+    { "name": "Mark Twain", "olid": "OL18319A", "nationality": "American", "genres": ["Fiction"], "century": "19th" },
+    { "name": "Jane Austen", "olid": "OL26953A", "nationality": "British", "genres": ["Fiction", "Romance"], "century": "19th" },
+    { "name": "William Shakespeare", "olid": "OL107094A", "nationality": "British", "genres": ["Fiction", "Drama"], "century": "16th" },
+    { "name": "Homer", "olid": "OL14547A", "nationality": "Greek", "genres": ["Epic Poetry"], "century": "8th BC" }
+  ]
+}

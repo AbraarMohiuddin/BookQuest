@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Details - BookQuest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="./bookdetails.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-primary navbar-custom">
+        <a class="navbar-brand navbar-brand-custom" href="#">BookQuest</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="booksearch.html">Book Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="authors.html">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="genres.html">Genres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="about.html">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-item-login">
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">
+                        <i class="material-icons icon-login">person</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-book-details">
+        <h1 class="book-heading" id="book-title">Book Title</h1>
+        <img src="#" alt="Book Cover" class="book-cover" id="book-cover">
+        <div class="book-content">
+            <h4>Author(s):</h4>
+            <p id="book-authors">Author Names</p>
+            <h4>Description:</h4>
+            <p id="book-description">Book Description</p>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        async function fetchBookDetails() {
+            const bookKey = getQueryParam('key');
+            const response = await fetch(`https://openlibrary.org${bookKey}.json`);
+            const book = await response.json();
+
+            document.getElementById('book-title').innerText = book.title || 'No Title Available';
+
+            if (book.authors && book.authors.length > 0) {
+                const authorNames = await Promise.all(
+                    book.authors.map(async author => {
+                        const authorResponse = await fetch(`https://openlibrary.org${author.author.key}.json`);
+                        const authorData = await authorResponse.json();
+                        return authorData.name;
+                    })
+                );
+                document.getElementById('book-authors').innerText = authorNames.join(', ');
+            } else {
+                document.getElementById('book-authors').innerText = 'Unknown';
+            }
+
+            document.getElementById('book-description').innerText = book.description ? book.description.value || book.description : 'No description available';
+            document.getElementById('book-cover').src = book.covers ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg` : 'https://via.placeholder.com/300x500';
+        }
+
+        fetchBookDetails();
+
+    </script>
+</body>
+
+</html>

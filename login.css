@@ -1,0 +1,106 @@
+.navbar-custom {
+  width: 100%;
+  background-color: #092f58;
+}
+
+.navbar-brand-custom {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 10px;
+  color: white;
+  font-family: "Playfair Display", serif;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+  transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+}
+
+.navbar-brand-custom:hover {
+  color: #264653;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-center {
+  margin-left: 350px;
+  margin-right: auto;
+}
+
+.nav-link-custom {
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #f0f0f0;
+  margin-left: 15px;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link-custom:hover {
+  color: goldenrod;
+}
+
+.icon-login {
+  font-size: 1.6em;
+  margin-left: 5px;
+  color: #f0f0f0;
+}
+
+.nav-item-login {
+  margin-left: auto;
+}
+
+.nav-link-custom.active {
+  color: goldenrod;
+}
+
+body {
+  background-color: #f8f9fa;
+
+  min-height: 100vh;
+}
+
+.container-login {
+  max-width: 500px;
+  background-color: #ffffff;
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  text-align: center;
+  margin-left: 500px;
+  margin-top: 50px;
+}
+
+.login-heading {
+  font-family: "Playfair Display", serif;
+  font-size: 2em;
+  color: #092f58;
+  margin-bottom: 20px;
+}
+
+.form-control-custom {
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+}
+
+.btn-primary-custom {
+  background-color: #092f58;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1em;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-primary-custom:hover {
+  background-color: #264653;
+}
+
+.signup-link {
+  display: block;
+  margin-top: 20px;
+  color: #092f58;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+  color: #264653;
+}

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="authors.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-primary navbar-custom">
+        <a class="navbar-brand navbar-brand-custom" href="#">BookQuest</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="booksearch.html">Book Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom active" href="authors.html">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="genres.html">Genres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="about.html">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-item-login">
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">
+                        <i class="material-icons icon-login">person</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="app">
+        <br><br>
+        <h3>The Classical Ones</h3>
+        <div class="container-authors mt-4">
+            <div class="row">
+                <div class="col-md-2 mb-4" v-for="classical in filteredClassicalAuthors" :key="classical.name">
+                    <img @click="fetchClassicalBooks(classical)" :src="getAuthorPhoto(classical.olid)"
+                        alt="Classical Author Photo" class="author-photo">
+                    <div class="author-classical" @click="fetchClassicalBooks(classical)">{{ classical.name }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-books" v-if="classicalBooks.length > 0">
+            <h3 class="mt-4">Books by {{ selectedClassicalAuthor }}</h3>
+            <img v-if="classicalAuthorPhoto" :src="classicalAuthorPhoto" alt="Classical Author Photo"
+                class="author-photo">
+            <div class="row mt-4">
+                <div class="col-md-2 mb-4" v-for="book in classicalBooks.slice(0, 6)" :key="book.key">
+                    <div class="card h-100" @click="viewBookDetails(book.key)">
+                        <img :src="getCoverImage(book.cover_i)" alt="Book cover" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">Author: {{ book.author_name ? book.author_name.join(', ') : 'Unknown'
+                                }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Today's Trending</h3>
+        <div class="container-authors mt-4">
+            <div class="row">
+                <div class="col-md-2 mb-4" v-for="trending in filteredTrendingAuthors" :key="trending.name">
+                    <img @click="fetchTrendingBooks(trending)" :src="getAuthorPhoto(trending.olid)"
+                        alt="Trending Author Photo" class="author-photo">
+                    <div class="author-trending" @click="fetchTrendingBooks(trending)">{{ trending.name }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Books Section -->
+        <div class="container-books" v-if="trendingBooks.length > 0">
+            <h3 class="mt-4">Books by {{ selectedTrendingAuthor }}</h3>
+            <img v-if="trendingAuthorPhoto" :src="trendingAuthorPhoto" alt="Trending Author Photo" class="author-photo">
+            <div class="row mt-4">
+                <div class="col-md-2 mb-4" v-for="book in trendingBooks.slice(0, 6)" :key="book.key">
+                    <div class="card h-100" @click="viewBookDetails(book.key)">
+                        <img :src="getCoverImage(book.cover_i)" alt="Book cover" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">Author: {{ book.author_name ? book.author_name.join(', ') : 'Unknown'
+                                }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Sci-Fi Authors Section -->
+        <h3>Best Sci-Fi Authors</h3>
+        <div class="container-authors mt-4">
+            <div class="row">
+                <div class="col-md-2 mb-4" v-for="sciFi in filteredSciFiAuthors" :key="sciFi.name">
+                    <img @click="fetchSciFiBooks(sciFi)" :src="getAuthorPhoto(sciFi.olid)" alt="Sci-Fi Author Photo"
+                        class="author-photo">
+                    <div class="author-sci-fi" @click="fetchSciFiBooks(sciFi)">{{ sciFi.name }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sci-Fi Books Section -->
+        <div class="container-books" v-if="sciFiBooks.length > 0">
+            <h3 class="mt-4">Books by {{ selectedSciFiAuthor }}</h3>
+            <img v-if="sciFiAuthorPhoto" :src="sciFiAuthorPhoto" alt="Sci-Fi Author Photo" class="author-photo">
+            <div class="row mt-4">
+                <div class="col-md-2 mb-4" v-for="book in sciFiBooks.slice(0, 6)" :key="book.key">
+                    <div class="card h-100" @click="viewBookDetails(book.key)">
+                        <img :src="getCoverImage(book.cover_i)" alt="Book cover" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">Author: {{ book.author_name ? book.author_name.join(', ') : 'Unknown'
+                                }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Time Top Authors Section -->
+        <h3>All Time Top Authors</h3>
+        <div class="container-authors mt-4">
+            <div class="row">
+                <div class="col-md-2 mb-4" v-for="allTime in filteredAllTimeAuthors" :key="allTime.name">
+                    <img @click="fetchAllTimeBooks(allTime)" :src="getAuthorPhoto(allTime.olid)"
+                        alt="All Time Author Photo" class="author-photo">
+                    <div class="author-all-time" @click="fetchAllTimeBooks(allTime)">{{ allTime.name }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Time Top Books Section -->
+        <div class="container-books" v-if="allTimeBooks.length > 0">
+            <h3 class="mt-4">Books by {{ selectedAllTimeAuthor }}</h3>
+            <img v-if="allTimeAuthorPhoto" :src="allTimeAuthorPhoto" alt="All Time Author Photo" class="author-photo">
+            <div class="row mt-4">
+                <div class="col-md-2 mb-4" v-for="book in allTimeBooks.slice(0, 6)" :key="book.key">
+                    <div class="card h-100" @click="viewBookDetails(book.key)">
+                        <img :src="getCoverImage(book.cover_i)" alt="Book cover" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">Author: {{ book.author_name ? book.author_name.join(', ') : 'Unknown'
+                                }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    authors: [],
+                    classicalAuthors: [],
+                    trendingAuthors: [],
+                    bestSciFiAuthors: [],
+                    allTimeTopAuthors: [],
+                    books: [],
+                    classicalBooks: [],
+                    trendingBooks: [],
+                    sciFiBooks: [],
+                    allTimeBooks: [],
+                    selectedAuthor: '',
+                    selectedClassicalAuthor: '',
+                    selectedTrendingAuthor: '',
+                    selectedSciFiAuthor: '',
+                    selectedAllTimeAuthor: '',
+                    authorPhoto: '',
+                    classicalAuthorPhoto: '',
+                    trendingAuthorPhoto: '',
+                    sciFiAuthorPhoto: '',
+                    allTimeAuthorPhoto: '',
+                    filters: {
+                        nationality: '',
+                        genre: '',
+                        century: ''
+                    },
+                    isLoggedIn: false
+                };
+            },
+            mounted() {
+                this.fetchAuthorsData();
+                this.checkLoginStatus();
+            },
+            computed: {
+                filteredClassicalAuthors() {
+                    return this.filterAuthors(this.classicalAuthors);
+                },
+                filteredTrendingAuthors() {
+                    return this.filterAuthors(this.trendingAuthors);
+                },
+                filteredSciFiAuthors() {
+                    return this.filterAuthors(this.bestSciFiAuthors);
+                },
+                filteredAllTimeAuthors() {
+                    return this.filterAuthors(this.allTimeTopAuthors);
+                }
+            },
+            methods: {
+                async fetchAuthorsData() {
+                    const response = await fetch('authors.json');
+                    const data = await response.json();
+                    this.classicalAuthors = data.classicalAuthors;
+                    this.trendingAuthors = data.trendingAuthors;
+                    this.bestSciFiAuthors = data.bestSciFiAuthors;
+                    this.allTimeTopAuthors = data.allTimeTopAuthors;
+                },
+                async fetchBooks(author) {
+                    this.selectedAuthor = author.name;
+                    const response = await fetch(`https://openlibrary.org/search.json?author=${encodeURIComponent(author.name)}`);
+                    const data = await response.json();
+                    this.books = data.docs.map(book => ({
+                        ...book,
+                        likes: 0
+                    }));
+                    this.authorPhoto = `https://covers.openlibrary.org/a/olid/${author.olid}-L.jpg`;
+                },
+                async fetchClassicalBooks(author) {
+                    this.selectedClassicalAuthor = author.name;
+                    const response = await fetch(`https://openlibrary.org/search.json?author=${encodeURIComponent(author.name)}`);
+                    const data = await response.json();
+                    this.classicalBooks = data.docs.map(book => ({
+                        ...book,
+                        likes: 0,
+                        key: book.key.replace('/works/', '') // Normalize the key for URL usage
+                    }));
+                    this.classicalAuthorPhoto = `https://covers.openlibrary.org/a/olid/${author.olid}-L.jpg`;
+                },
+                async fetchTrendingBooks(author) {
+                    this.selectedTrendingAuthor = author.name;
+                    const response = await fetch(`https://openlibrary.org/search.json?author=${encodeURIComponent(author.name)}`);
+                    const data = await response.json();
+                    this.trendingBooks = data.docs.map(book => ({
+                        ...book,
+                        likes: 0,
+                        key: book.key.replace('/works/', '')
+                    }));
+                    this.trendingAuthorPhoto = `https://covers.openlibrary.org/a/olid/${author.olid}-L.jpg`;
+                },
+                async fetchSciFiBooks(author) {
+                    this.selectedSciFiAuthor = author.name;
+                    const response = await fetch(`https://openlibrary.org/search.json?author=${encodeURIComponent(author.name)}`);
+                    const data = await response.json();
+                    this.sciFiBooks = data.docs.map(book => ({
+                        ...book,
+                        likes: 0,
+                        key: book.key.replace('/works/', '')
+                    }));
+                    this.sciFiAuthorPhoto = `https://covers.openlibrary.org/a/olid/${author.olid}-L.jpg`;
+                },
+                async fetchAllTimeBooks(author) {
+                    this.selectedAllTimeAuthor = author.name;
+                    const response = await fetch(`https://openlibrary.org/search.json?author=${encodeURIComponent(author.name)}`);
+                    const data = await response.json();
+                    this.allTimeBooks = data.docs.map(book => ({
+                        ...book,
+                        likes: 0,
+                        key: book.key.replace('/works/', '')
+                    }));
+                    this.allTimeAuthorPhoto = `https://covers.openlibrary.org/a/olid/${author.olid}-L.jpg`;
+                },
+                viewBookDetails(bookKey) {
+                    window.location.href = `bookdetails.html?key=/works/${encodeURIComponent(bookKey)}`;
+                },
+                getCoverImage(coverId) {
+                    return coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : 'https://via.placeholder.com/150';
+                },
+                getAuthorPhoto(olid) {
+                    return `https://covers.openlibrary.org/a/olid/${olid}-L.jpg`;
+                },
+                applyFilters() {
+                    this.currentPage = 1;
+                },
+                filterAuthors(authors) {
+                    return authors.filter(author => {
+                        const nationalityMatch = this.filters.nationality ? author.nationality === this.filters.nationality : true;
+                        const genreMatch = this.filters.genre ? author.genres && author.genres.includes(this.filters.genre) : true;
+                        const centuryMatch = this.filters.century ? author.century === this.filters.century : true;
+                        return nationalityMatch && genreMatch && centuryMatch;
+                    });
+                },
+                checkLoginStatus() {
+                    this.isLoggedIn = !!localStorage.getItem('isLoggedIn');
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

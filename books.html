@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" class="container mt-4">
+        <h1>Book Details</h1>
+        <div v-if="book.title">
+            <div class="card mb-4">
+                <img :src="book.cover" alt="Book cover" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">Author: {{ book.author }}</p>
+                    <p class="card-text">Description: {{ book.description || 'No description available.' }}</p>
+                </div>
+            </div>
+        </div>
+        <p v-else>No book information found. Please ensure the identifier is correct.</p>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    book: {
+                        title: '',
+                        author: '',
+                        description: '',
+                        cover: ''
+                    }
+                };
+            },
+            mounted() {
+                this.fetchBookDetails();
+            },
+            methods: {
+                async fetchBookDetails() {
+                    try {
+                        const bookKey = window.location.pathname.split('/').pop();
+
+                        const response = await fetch(`https://openlibrary.org/works/${bookKey}.json`);
+                        const data = await response.json();
+
+                        this.book = {
+                            title: data.title || 'Unknown Title',
+                            author: data.authors ? data.authors.map(a => a.name).join(', ') : 'Unknown Author',
+                            description: data.description ? (typeof data.description === 'string' ? data.description : data.description.value) : '',
+                            cover: data.covers ? `https://covers.openlibrary.org/b/id/${data.covers[0]}-M.jpg` : 'https://via.placeholder.com/150'
+                        };
+                    } catch (error) {
+                        console.error('Error fetching book details:', error);
+                        this.book = {
+                            title: 'Error',
+                            author: '',
+                            description: 'Could not fetch book details. Please check the book identifier or try again later.',
+                            cover: 'https://via.placeholder.com/150'
+                        };
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

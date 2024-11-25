@@ -1,0 +1,124 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="./booksearch.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar Section -->
+    <nav class="navbar navbar-expand-lg navbar-primary navbar-custom">
+        <a class="navbar-brand navbar-brand-custom" href="#">BookQuest</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="home.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom active" href="booksearch.html">Book Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="authors.html">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="genres.html">Genres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="about.html">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-item-login">
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">
+                        <i class="material-icons icon-login">person</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="app" class="container mt-4">
+        <!-- Search Bar -->
+        <div class="mb-5">
+            <h1 class="mb-3">Search for Books</h1>
+            <input type="text" v-model="searchQuery" @keyup.enter="fetchBooks"
+                placeholder="Enter a book title or author..." class="form-control">
+            <button @click="fetchBooks" class="btn btn-primary mt-3">Search</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters mb-4">
+            <h4>Filters</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="authorFilter" class="form-label">Author</label>
+                    <input type="text" id="authorFilter" v-model="filters.author" class="form-control"
+                        placeholder="Author name">
+                </div>
+                <div class="col-md-4">
+                    <label for="yearFilter" class="form-label">First Published Year</label>
+                    <input type="number" id="yearFilter" v-model="filters.year" class="form-control" placeholder="Year">
+                </div>
+                <div class="col-md-4">
+                    <label for="sortOrder" class="form-label">Sort By</label>
+                    <select id="sortOrder" v-model="sortOrder" class="form-control">
+                        <option value="latest">Latest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="radio" id="twentieth" name="2000" value="2000">
+                    <label for="2000">Smaller than 200</label><br>
+                    <input type="radio" id="twentyone" name="2010" value="2010">
+                    <label for="2010">Greather than 2000</label><br>
+
+                </div>
+            </div>
+            <button @click="applyFilters" class="btn btn-secondary mt-3">Apply Filters</button>
+        </div>
+
+        <!-- Search Results -->
+        <h2 class="mt-5" v-if="books.length > 0">Search Results</h2>
+        <div class="row" v-if="books.length > 0">
+            <div class="col-md-3 mb-4" v-for="book in paginatedBooks" :key="book.key">
+                <div class="card h-100" @click="viewBookDetails(book.key)">
+                    <img :src="getCoverImage(book.cover_i)" alt="Book cover" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text">Author: {{ book.author_name ? book.author_name.join(', ') : 'Unknown' }}
+                        </p>
+                        <button @click.stop="likeBook(book)" class="btn btn-primary">Like</button>
+                        <span class="likes-count">{{ book.likes }} likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="pagination" v-if="books.length > 0">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <a class="page-link" @click="previousPage">Previous</a>
+            </li>
+            <li class="page-item" v-for="page in totalPages" :class="{ active: currentPage === page }" :key="page">
+                <a class="page-link" @click="goToPage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <a class="page-link" @click="nextPage">Next</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Vue and Bootstrap Icons -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.min.js"></script>
+    <script src="./booksearch.js"></script>
+</body>
+
+</html>
